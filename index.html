@@ -8,399 +8,232 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── THEMES ── */
   :root {
-    --bg: #0a0a0f;
-    --panel: #12121a;
-    --border: #1e1e2e;
-    --text: #ffffff;
-    --text-dim: rgba(255,255,255,0.3);
+    --bg: #0a0a0f; --panel: #12121a; --border: #1e1e2e;
+    --text: #ffffff; --text-dim: rgba(255,255,255,0.3);
     --grid-line: rgba(255,255,255,0.03);
-    --ctrl-bg: rgba(255,255,255,0.05);
-    --ctrl-color: rgba(255,255,255,0.35);
-    --ctrl-border: rgba(255,255,255,0.1);
-    --input-focus: rgba(255,255,255,0.06);
+    --ctrl-bg: rgba(255,255,255,0.05); --ctrl-color: rgba(255,255,255,0.35);
+    --ctrl-border: rgba(255,255,255,0.1); --input-focus: rgba(255,255,255,0.06);
   }
-
   body.light {
-    --bg: #f0f0f5;
-    --panel: #ffffff;
-    --border: #e0e0ea;
-    --text: #0a0a0f;
-    --text-dim: rgba(0,0,0,0.35);
+    --bg: #f0f0f5; --panel: #ffffff; --border: #e0e0ea;
+    --text: #0a0a0f; --text-dim: rgba(0,0,0,0.35);
     --grid-line: rgba(0,0,0,0.04);
-    --ctrl-bg: rgba(0,0,0,0.05);
-    --ctrl-color: rgba(0,0,0,0.4);
-    --ctrl-border: rgba(0,0,0,0.12);
-    --input-focus: rgba(0,0,0,0.06);
+    --ctrl-bg: rgba(0,0,0,0.05); --ctrl-color: rgba(0,0,0,0.4);
+    --ctrl-border: rgba(0,0,0,0.12); --input-focus: rgba(0,0,0,0.06);
   }
 
   body {
-    background: var(--bg);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-    user-select: none;
-    transition: background 0.3s;
+    background: var(--bg); font-family: 'Rajdhani', sans-serif;
+    min-height: 100dvh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow-x: hidden; user-select: none; transition: background 0.3s;
   }
-
   body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: 0;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-  /* ── THEME TOGGLE ── */
   .theme-toggle {
     position: fixed; top: 16px; right: 16px; z-index: 200;
-    background: var(--ctrl-bg);
-    border: 1px solid var(--ctrl-border);
-    color: var(--ctrl-color);
-    border-radius: 50%;
-    width: 40px; height: 40px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    background: var(--ctrl-bg); border: 1px solid var(--ctrl-border); color: var(--ctrl-color);
+    border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
   }
-  .theme-toggle:hover { background: var(--ctrl-bg); filter: brightness(1.5); }
 
-  /* ── SETUP SCREEN ── */
+  /* ── SETUP ── */
   #setup-screen {
-    position: relative; z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 36px;
-    padding: 40px 20px;
-    animation: fadeIn 0.4s ease;
-    width: min(95vw, 500px);
+    position: relative; z-index: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 32px; padding: 40px 20px;
+    animation: fadeIn 0.4s ease; width: min(95vw, 500px);
   }
-
-  .setup-header { text-align: center; }
-
   .setup-title {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text);
+    font-family: 'Black Ops One', cursive; font-size: clamp(3rem, 10vw, 5.5rem);
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); text-align: center;
   }
-
   .setup-subtitle {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: 4px;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-dim); margin-top: 4px; text-align: center;
   }
-
-  /* Game name input */
-  .game-name-wrap {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .section-wrap { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .section-label {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-dim);
   }
-
-  .game-name-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
   .game-name-input {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    outline: none;
-    width: 100%;
-    transition: border-color 0.2s;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1.1rem;
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; outline: none; width: 100%; transition: border-color 0.2s;
   }
-
   .game-name-input:focus { border-color: rgba(255,255,255,0.3); }
   body.light .game-name-input:focus { border-color: rgba(0,0,0,0.3); }
 
-  /* Goal score */
-  .goal-wrap {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .goal-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  .goal-options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
+  .goal-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .goal-btn {
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    background: var(--panel);
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1rem;
+    background: var(--panel); color: var(--text-dim); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 8px; cursor: pointer; transition: all 0.2s; text-align: center;
   }
+  .goal-btn:hover { color: var(--text); }
+  .goal-btn.active { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.4); }
+  body.light .goal-btn.active { background: rgba(0,0,0,0.1); color: #000; border-color: rgba(0,0,0,0.4); }
 
-  .goal-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
-  .goal-btn.active {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    border-color: rgba(255,255,255,0.4);
-  }
-  body.light .goal-btn.active {
-    background: rgba(0,0,0,0.1);
-    color: #000;
-    border-color: rgba(0,0,0,0.4);
-  }
-
-  .player-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    width: 100%;
-  }
-
+  .player-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%; }
   .num-card {
-    aspect-ratio: 1;
-    border-radius: 14px;
-    background: var(--panel);
-    border: 2px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(.22,1,.36,1);
+    aspect-ratio: 1; border-radius: 14px; background: var(--panel); border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Black Ops One', cursive; font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--text-dim); cursor: pointer; transition: all 0.2s cubic-bezier(.22,1,.36,1);
   }
-
   .num-card:hover { transform: scale(1.06); color: var(--text); }
-
   .num-card.selected {
     background: color-mix(in srgb, var(--nc) 15%, var(--panel));
-    border-color: var(--nc);
-    box-shadow: 0 0 28px color-mix(in srgb, var(--nc) 35%, transparent);
-    color: var(--nc);
-    transform: scale(1.08);
+    border-color: var(--nc); box-shadow: 0 0 28px color-mix(in srgb, var(--nc) 35%, transparent);
+    color: var(--nc); transform: scale(1.08);
   }
-
-  .num-card[data-n="2"] { --nc: #ff3c3c; }
-  .num-card[data-n="3"] { --nc: #ffe033; }
-  .num-card[data-n="4"] { --nc: #3cff8f; }
-  .num-card[data-n="5"] { --nc: #00c8ff; }
-  .num-card[data-n="6"] { --nc: #ff7aff; }
-  .num-card[data-n="7"] { --nc: #ff8c3c; }
-  .num-card[data-n="8"] { --nc: #a78bfa; }
+  .num-card[data-n="2"]{--nc:#ff3c3c} .num-card[data-n="3"]{--nc:#ffe033}
+  .num-card[data-n="4"]{--nc:#3cff8f} .num-card[data-n="5"]{--nc:#00c8ff}
+  .num-card[data-n="6"]{--nc:#ff7aff} .num-card[data-n="7"]{--nc:#ff8c3c} .num-card[data-n="8"]{--nc:#a78bfa}
 
   .start-btn {
-    font-family: 'Black Ops One', cursive;
-    font-size: 1.3rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    border-radius: 14px;
-    padding: 18px 56px;
-    cursor: pointer;
-    transition: all 0.2s;
-    opacity: 0.15;
-    pointer-events: none;
-    width: 100%;
+    font-family: 'Black Ops One', cursive; font-size: 1.3rem; letter-spacing: 0.15em;
+    text-transform: uppercase; background: var(--text); color: var(--bg);
+    border: none; border-radius: 14px; padding: 18px 56px;
+    cursor: pointer; transition: all 0.2s; opacity: 0.15; pointer-events: none; width: 100%;
   }
-
   .start-btn.ready { opacity: 1; pointer-events: all; animation: pulse 2s infinite; }
-
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.25); }
-    50%       { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.25); }
+    50% { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
   }
-
   .start-btn.ready:hover { transform: scale(1.03); }
   .start-btn.ready:active { transform: scale(0.97); }
 
-  /* ── GAME SCREEN ── */
+  /* ── GAME ── */
   #game-screen {
-    display: none;
-    position: relative; z-index: 1;
-    width: min(98vw, 1100px);
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 10px;
-    animation: fadeIn 0.4s ease;
+    display: none; position: relative; z-index: 1;
+    width: min(98vw, 1100px); flex-direction: column;
+    align-items: center; gap: 10px; padding: 12px 8px; animation: fadeIn 0.4s ease;
   }
-
   #game-screen.active { display: flex; }
 
   .game-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 8px;
   }
-
   .game-back {
-    font-weight: 600; font-size: 0.82rem;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--text-dim); cursor: pointer; transition: color 0.2s;
+    font-weight: 600; font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim); cursor: pointer; transition: color 0.2s; white-space: nowrap;
   }
   .game-back:hover { color: var(--text); }
-
   .game-name-display {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
+    font-family: 'Black Ops One', cursive; font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+    letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase;
+    text-align: center; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .topbar-right { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    font-size: 1rem; cursor: pointer; background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border); border-radius: 8px;
+    padding: 5px 9px; color: var(--ctrl-color); transition: all 0.2s; white-space: nowrap;
+  }
+  .icon-btn:hover { filter: brightness(1.5); }
+
+  /* Timer */
+  .timer-bar {
+    font-family: 'Black Ops One', cursive; font-size: 0.9rem; letter-spacing: 0.1em;
+    color: var(--text-dim); text-align: center; width: 100%;
   }
 
-  .sound-toggle {
-    font-size: 1.1rem; cursor: pointer;
-    background: var(--ctrl-bg); border: 1px solid var(--ctrl-border);
-    border-radius: 8px; padding: 5px 10px;
-    color: var(--ctrl-color); transition: all 0.2s;
-  }
-  .sound-toggle:hover { filter: brightness(1.5); }
-
+  /* Scoreboard grid */
   .scoreboard { display: grid; width: 100%; gap: 10px; }
-
-  .players-2 { grid-template-columns: 1fr 1fr; }
-  .players-3 { grid-template-columns: repeat(3, 1fr); }
-  .players-4 { grid-template-columns: repeat(2, 1fr); }
-  .players-5 { grid-template-columns: repeat(3, 1fr); }
-  .players-6 { grid-template-columns: repeat(3, 1fr); }
-  .players-7 { grid-template-columns: repeat(4, 1fr); }
-  .players-8 { grid-template-columns: repeat(4, 1fr); }
-
-  @media (max-width: 600px) {
-    .players-3, .players-5, .players-6 { grid-template-columns: repeat(2, 1fr); }
-    .players-7, .players-8 { grid-template-columns: repeat(2, 1fr); }
+  .players-2{grid-template-columns:1fr 1fr}
+  .players-3{grid-template-columns:repeat(3,1fr)}
+  .players-4{grid-template-columns:repeat(2,1fr)}
+  .players-5{grid-template-columns:repeat(3,1fr)}
+  .players-6{grid-template-columns:repeat(3,1fr)}
+  .players-7{grid-template-columns:repeat(4,1fr)}
+  .players-8{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:600px){
+    .players-3,.players-5,.players-6{grid-template-columns:repeat(2,1fr)}
+    .players-7,.players-8{grid-template-columns:repeat(2,1fr)}
   }
 
   .player {
-    background: var(--panel);
-    border-radius: 14px;
-    padding: 18px 12px 14px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 8px;
-    border: 1px solid var(--border);
-    position: relative; overflow: hidden;
+    background: var(--panel); border-radius: 14px; padding: 16px 12px 14px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
     transition: box-shadow 0.4s, border-color 0.4s;
+    touch-action: pan-y;
   }
-
   .player::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0;
     height: 3px; background: var(--pc); opacity: 0.8;
   }
-
   .player.leading {
     box-shadow: 0 0 35px color-mix(in srgb, var(--pc) 40%, transparent);
     border-color: color-mix(in srgb, var(--pc) 25%, var(--border));
   }
 
-  .player-name {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(0.8rem, 2.2vw, 1.1rem);
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--pc); cursor: pointer; outline: none;
-    border: none; background: transparent;
-    text-align: center; padding: 3px 6px;
-    border-radius: 6px; transition: background 0.2s; width: 100%;
+  /* Tension pulse when close to goal */
+  .player.tension { animation: tensionPulse 0.8s ease infinite; }
+  @keyframes tensionPulse {
+    0%,100% { border-color: color-mix(in srgb, var(--pc) 25%, var(--border)); }
+    50% { border-color: var(--pc); box-shadow: 0 0 50px color-mix(in srgb, var(--pc) 70%, transparent); }
   }
 
+  .player-name {
+    font-family: 'Black Ops One', cursive; font-size: clamp(0.8rem, 2.2vw, 1.1rem);
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--pc);
+    cursor: pointer; outline: none; border: none; background: transparent;
+    text-align: center; padding: 3px 6px; border-radius: 6px; transition: background 0.2s; width: 100%;
+  }
   .player-name:focus { background: var(--input-focus); }
 
-  /* Editable score */
   .score {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(3rem, 10vw, 7rem);
+    font-family: 'Black Ops One', cursive; font-size: clamp(3rem, 10vw, 6.5rem);
     line-height: 1; color: var(--text);
     text-shadow: 0 0 25px color-mix(in srgb, var(--pc) 60%, transparent);
-    cursor: pointer; outline: none;
-    border: none; background: transparent;
-    text-align: center; width: 100%;
-    border-radius: 8px; padding: 4px;
-    transition: background 0.15s;
+    cursor: pointer; outline: none; border: none; background: transparent;
+    text-align: center; width: 100%; border-radius: 8px; padding: 4px; transition: background 0.15s;
     -moz-appearance: textfield;
   }
-  .score::-webkit-outer-spin-button,
-  .score::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .score::-webkit-outer-spin-button,.score::-webkit-inner-spin-button { -webkit-appearance: none; }
   .score:focus { background: var(--input-focus); }
-  .score.bump { animation: bump 0.25s cubic-bezier(.36,.07,.19,.97); }
+  .score.bump { animation: bump 0.22s cubic-bezier(.36,.07,.19,.97); }
+  @keyframes bump { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 100%{transform:scale(1)} }
 
-  @keyframes bump {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.18); }
-    100% { transform: scale(1); }
-  }
-
-  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-
+  /* Bigger touch-friendly buttons */
+  .btn-row { display: flex; gap: 8px; width: 100%; }
   .btn {
     font-family: 'Rajdhani', sans-serif; font-weight: 600;
-    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
-    border: none; border-radius: 8px; padding: 8px 13px;
-    cursor: pointer; transition: transform 0.1s, filter 0.15s;
-    outline: none; white-space: nowrap;
+    border: none; border-radius: 10px; cursor: pointer;
+    transition: transform 0.1s, filter 0.15s; outline: none; white-space: nowrap;
+    flex: 1; padding: 12px 6px; font-size: clamp(1rem, 2.5vw, 1.2rem);
   }
   .btn:active { transform: scale(0.88); }
-  .btn-add { background: var(--pc); color: color-mix(in srgb, var(--pc) 10%, #000); font-size: clamp(0.9rem, 2vw, 1.1rem); }
-  .btn-sub { background: var(--ctrl-bg); color: var(--ctrl-color); border: 1px solid var(--ctrl-border); }
+  .btn-add { background: var(--pc); color: color-mix(in srgb, var(--pc) 10%, #000); }
+  .btn-add.big { flex: 2; font-size: clamp(1.1rem, 3vw, 1.4rem); font-weight: 700; }
+  .btn-sub { background: var(--ctrl-bg); color: var(--ctrl-color); border: 1px solid var(--ctrl-border); flex: 1; }
   .btn-sub:hover { filter: brightness(1.5); }
 
-  .controls {
-    display: flex; align-items: center; gap: 10px;
-    width: 100%; justify-content: center; flex-wrap: wrap;
+  /* Swipe hint */
+  .swipe-hint {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    color: var(--text-dim); opacity: 0.5; text-align: center;
   }
 
+  .controls {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; justify-content: center; flex-wrap: wrap;
+  }
   .ctrl-btn {
-    font-family: 'Rajdhani', sans-serif; font-weight: 600;
-    font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase;
-    background: var(--ctrl-bg); color: var(--ctrl-color);
-    border: 1px solid var(--ctrl-border);
-    border-radius: 8px; padding: 7px 16px;
-    cursor: pointer; transition: all 0.2s;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.85rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--ctrl-bg); color: var(--ctrl-color); border: 1px solid var(--ctrl-border);
+    border-radius: 8px; padding: 7px 14px; cursor: pointer; transition: all 0.2s;
   }
   .ctrl-btn:hover { filter: brightness(1.5); }
   .ctrl-btn.danger:hover { background: rgba(255,60,60,0.12); border-color: rgba(255,60,60,0.4); color: #ff3c3c; }
@@ -413,99 +246,105 @@
   }
   .history-item {
     font-size: 0.83rem; font-weight: 600; letter-spacing: 0.05em;
-    color: var(--text-dim); text-align: center; padding: 3px;
-    border-bottom: 1px solid var(--border);
+    color: var(--text-dim); text-align: center; padding: 3px; border-bottom: 1px solid var(--border);
   }
 
   /* ── WINNER SCREEN ── */
   #winner-screen {
-    display: none;
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(0,0,0,0.92);
-    flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 28px;
-    animation: fadeIn 0.5s ease;
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,0.94); flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px; padding: 20px;
+    animation: fadeIn 0.5s ease; overflow-y: auto;
   }
-
   #winner-screen.active { display: flex; }
 
-  .winner-crown { font-size: clamp(4rem, 15vw, 7rem); animation: bounce 1s infinite; }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-14px); }
-  }
+  .winner-crown { font-size: clamp(3.5rem, 12vw, 6rem); animation: bounce 1s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
   .winner-label {
     font-family: 'Rajdhani', sans-serif; font-weight: 600;
-    font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    font-size: 0.95rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.4);
   }
-
   .winner-name {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(2.5rem, 10vw, 5rem);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    text-align: center; padding: 0 20px;
+    font-family: 'Black Ops One', cursive; font-size: clamp(2rem, 9vw, 4.5rem);
+    letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
   }
-
-  .winner-score {
-    font-family: 'Black Ops One', cursive;
-    font-size: clamp(1.2rem, 4vw, 2rem);
+  .winner-pts {
+    font-family: 'Black Ops One', cursive; font-size: clamp(1rem, 3vw, 1.6rem);
     color: rgba(255,255,255,0.4);
   }
 
-  .winner-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  /* Podium */
+  .podium {
+    display: flex; align-items: flex-end; gap: 10px; justify-content: center;
+    width: min(95vw, 420px); margin-top: 8px;
+  }
+  .podium-slot {
+    display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;
+  }
+  .podium-medal { font-size: clamp(1.4rem, 4vw, 1.8rem); }
+  .podium-pname {
+    font-family: 'Black Ops One', cursive; font-size: clamp(0.6rem, 1.8vw, 0.85rem);
+    letter-spacing: 0.06em; text-transform: uppercase; text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
+  .podium-pts {
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: clamp(0.85rem, 2vw, 1rem);
+    color: rgba(255,255,255,0.5);
+  }
+  .podium-bar {
+    border-radius: 6px 6px 0 0; width: 100%;
+    min-height: 20px;
+  }
+  .podium-slot:nth-child(1) .podium-bar { height: 80px; }
+  .podium-slot:nth-child(2) .podium-bar { height: 55px; }
+  .podium-slot:nth-child(3) .podium-bar { height: 35px; }
 
+  .winner-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
   .winner-btn {
-    font-family: 'Black Ops One', cursive;
-    font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase;
-    border: none; border-radius: 12px; padding: 14px 32px;
+    font-family: 'Black Ops One', cursive; font-size: 0.95rem; letter-spacing: 0.12em;
+    text-transform: uppercase; border: none; border-radius: 12px; padding: 13px 26px;
     cursor: pointer; transition: transform 0.15s;
   }
   .winner-btn:active { transform: scale(0.95); }
   .winner-btn.primary { background: #fff; color: #0a0a0f; }
   .winner-btn.secondary { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2); }
 
-  /* Confetti canvas */
   #confetti { position: fixed; inset: 0; z-index: 299; pointer-events: none; }
 
   /* Toast */
   .toast {
-    position: fixed; bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--panel); border: 1px solid var(--border);
-    color: var(--text); font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem; font-weight: 600; letter-spacing: 0.08em;
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--panel); border: 1px solid var(--border); color: var(--text);
+    font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.08em;
     padding: 11px 26px; border-radius: 50px; white-space: nowrap;
     transition: transform 0.35s cubic-bezier(.22,1,.36,1), opacity 0.35s;
-    opacity: 0; z-index: 100; pointer-events: none;
+    opacity: 0; z-index: 400; pointer-events: none;
   }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+<button class="theme-toggle" onclick="toggleTheme()" title="Tema">🌙</button>
 <canvas id="confetti"></canvas>
 
 <!-- SETUP -->
 <div id="setup-screen">
-  <div class="setup-header">
+  <div>
     <div class="setup-title">Marcador</div>
     <div class="setup-subtitle">Configura tu partida</div>
   </div>
 
-  <div class="game-name-wrap">
-    <div class="game-name-label">Nombre de la partida (opcional)</div>
+  <div class="section-wrap">
+    <div class="section-label">Nombre de la partida (opcional)</div>
     <input class="game-name-input" id="game-name-input" placeholder="Ej: Parchís viernes noche" maxlength="30" spellcheck="false">
   </div>
 
-  <div class="goal-wrap">
-    <div class="goal-label">Meta de puntos (opcional)</div>
+  <div class="section-wrap">
+    <div class="section-label">Meta de puntos (opcional)</div>
     <div class="goal-options">
-      <button class="goal-btn" data-goal="0" onclick="selectGoal(this)">Sin límite</button>
+      <button class="goal-btn active" data-goal="0" onclick="selectGoal(this)">Sin límite</button>
       <button class="goal-btn" data-goal="10" onclick="selectGoal(this)">10</button>
       <button class="goal-btn" data-goal="21" onclick="selectGoal(this)">21</button>
       <button class="goal-btn" data-goal="50" onclick="selectGoal(this)">50</button>
@@ -513,12 +352,11 @@
       <button class="goal-btn" data-goal="custom" onclick="selectGoal(this)">✏️ Otro</button>
     </div>
     <input class="game-name-input" id="custom-goal-input" type="number" placeholder="Escribe la meta..." min="1" max="9999"
-      style="display:none; margin-top:8px;"
-      oninput="goalScore = Math.max(1, parseInt(this.value)||0)">
+      style="display:none; margin-top:8px;" oninput="goalScore = Math.max(1, parseInt(this.value)||0)">
   </div>
 
-  <div class="goal-wrap">
-    <div class="goal-label">¿Cuántos jugadores?</div>
+  <div class="section-wrap">
+    <div class="section-label">¿Cuántos jugadores?</div>
     <div class="player-grid">
       <div class="num-card" data-n="2">2</div>
       <div class="num-card" data-n="3">3</div>
@@ -538,11 +376,15 @@
   <div class="game-topbar">
     <div class="game-back" onclick="goSetup()">← Volver</div>
     <div class="game-name-display" id="game-name-display"></div>
-    <div class="sound-toggle" id="sound-toggle" onclick="toggleSound()" title="Sonido">🔊</div>
+    <div class="topbar-right">
+      <div class="icon-btn" id="sound-toggle" onclick="toggleSound()">🔊</div>
+    </div>
   </div>
+  <div class="timer-bar" id="timer-bar">00:00</div>
   <div class="scoreboard" id="scoreboard"></div>
   <div class="controls">
     <button class="ctrl-btn" onclick="toggleHistory()">📋 Historial</button>
+    <button class="ctrl-btn" onclick="shareResult()">📤 Compartir</button>
     <button class="ctrl-btn danger" onclick="resetScores()">↺ Reiniciar</button>
   </div>
   <div class="history" id="historyPanel">
@@ -555,9 +397,11 @@
   <div class="winner-crown">🏆</div>
   <div class="winner-label">¡Ganador!</div>
   <div class="winner-name" id="winner-name">—</div>
-  <div class="winner-score" id="winner-score"></div>
+  <div class="winner-pts" id="winner-pts"></div>
+  <div class="podium" id="podium"></div>
   <div class="winner-btns">
     <button class="winner-btn primary" onclick="resetAfterWin()">Nueva partida</button>
+    <button class="winner-btn secondary" onclick="shareResult(); closeWinner()">📤 Compartir</button>
     <button class="winner-btn secondary" onclick="closeWinner()">Seguir jugando</button>
   </div>
 </div>
@@ -566,7 +410,8 @@
 
 <script>
   const COLORS = ['#ff3c3c','#00c8ff','#ffe033','#3cff8f','#ff7aff','#ff8c3c','#a78bfa','#3cffd1'];
-  let numPlayers = 0, scores = [], gameHistory = [], goalScore = 0, soundOn = true, isLight = false;
+  let numPlayers=0, scores=[], gameHistory=[], goalScore=0, soundOn=true, isLight=false;
+  let timerInterval=null, timerSeconds=0, gameStarted=false;
 
   // ── THEME ──
   function toggleTheme() {
@@ -577,45 +422,52 @@
 
   // ── SOUND ──
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  let ctx;
+  let actx;
+  function getCtx() { if (!actx) actx = new AudioCtx(); return actx; }
 
-  function getCtx() {
-    if (!ctx) ctx = new AudioCtx();
-    return ctx;
-  }
-
-  function playPop(color) {
+  function playPop() {
     if (!soundOn) return;
     try {
-      const c = getCtx();
-      const o = c.createOscillator();
-      const g = c.createGain();
-      o.connect(g); g.connect(c.destination);
-      o.type = 'sine';
+      const c = getCtx(), o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination); o.type = 'sine';
       o.frequency.setValueAtTime(520, c.currentTime);
-      o.frequency.exponentialRampToValueAtTime(780, c.currentTime + 0.08);
+      o.frequency.exponentialRampToValueAtTime(780, c.currentTime+0.08);
       g.gain.setValueAtTime(0.18, c.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.18);
-      o.start(); o.stop(c.currentTime + 0.18);
-    } catch(e) {}
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime+0.18);
+      o.start(); o.stop(c.currentTime+0.18);
+    } catch(e){}
   }
 
   function playWin() {
     if (!soundOn) return;
     try {
       const c = getCtx();
-      [523, 659, 784, 1047].forEach((freq, i) => {
-        const o = c.createOscillator();
-        const g = c.createGain();
-        o.connect(g); g.connect(c.destination);
-        o.type = 'sine';
-        const t = c.currentTime + i * 0.13;
+      [523,659,784,1047].forEach((freq,i) => {
+        const o=c.createOscillator(), g=c.createGain();
+        o.connect(g); g.connect(c.destination); o.type='sine';
+        const t = c.currentTime + i*0.13;
         o.frequency.setValueAtTime(freq, t);
         g.gain.setValueAtTime(0.15, t);
-        g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-        o.start(t); o.stop(t + 0.3);
+        g.gain.exponentialRampToValueAtTime(0.001, t+0.3);
+        o.start(t); o.stop(t+0.3);
       });
-    } catch(e) {}
+    } catch(e){}
+  }
+
+  function playTension() {
+    if (!soundOn) return;
+    try {
+      const c = getCtx(), o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination); o.type = 'square';
+      o.frequency.setValueAtTime(200, c.currentTime);
+      g.gain.setValueAtTime(0.05, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime+0.15);
+      o.start(); o.stop(c.currentTime+0.15);
+    } catch(e){}
+  }
+
+  function vibrate(ms) {
+    try { navigator.vibrate && navigator.vibrate(ms); } catch(e){}
   }
 
   function toggleSound() {
@@ -623,22 +475,38 @@
     document.getElementById('sound-toggle').textContent = soundOn ? '🔊' : '🔇';
   }
 
+  // ── TIMER ──
+  function startTimer() {
+    timerSeconds = 0;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
+      const s = String(timerSeconds%60).padStart(2,'0');
+      document.getElementById('timer-bar').textContent = `${m}:${s}`;
+    }, 1000);
+  }
+
+  function stopTimer() { clearInterval(timerInterval); }
+
+  function formatTime(secs) {
+    const m = Math.floor(secs/60), s = secs%60;
+    return `${m}m ${s}s`;
+  }
+
   // ── GOAL ──
   function selectGoal(btn) {
     document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const customInput = document.getElementById('custom-goal-input');
+    const ci = document.getElementById('custom-goal-input');
     if (btn.dataset.goal === 'custom') {
-      customInput.style.display = 'block';
-      customInput.focus();
-      goalScore = Math.max(1, parseInt(customInput.value) || 0);
+      ci.style.display = 'block'; ci.focus();
+      goalScore = Math.max(1, parseInt(ci.value)||0);
     } else {
-      customInput.style.display = 'none';
+      ci.style.display = 'none';
       goalScore = parseInt(btn.dataset.goal);
     }
   }
-  // default: no limit
-  document.querySelector('.goal-btn[data-goal="0"]').classList.add('active');
 
   // ── PLAYER SELECT ──
   document.querySelectorAll('.num-card').forEach(card => {
@@ -662,16 +530,16 @@
     document.getElementById('game-screen').classList.add('active');
     document.getElementById('historyPanel').classList.remove('open');
     updateHistory();
+    startTimer();
     saveState();
   }
 
   function goSetup() {
+    stopTimer();
     document.getElementById('game-screen').classList.remove('active');
     const s = document.getElementById('setup-screen');
-    s.style.display = 'flex';
-    s.style.animation = 'none';
-    void s.offsetWidth;
-    s.style.animation = '';
+    s.style.display = 'flex'; s.style.animation='none';
+    void s.offsetWidth; s.style.animation='';
   }
 
   // ── BUILD BOARD ──
@@ -680,243 +548,281 @@
     board.innerHTML = '';
     board.className = `scoreboard players-${numPlayers}`;
 
-    for (let i = 0; i < numPlayers; i++) {
-      const color = COLORS[i];
-      const n = i + 1;
+    for (let i=0; i<numPlayers; i++) {
+      const color=COLORS[i], n=i+1;
       const panel = document.createElement('div');
-      panel.className = 'player';
-      panel.id = `panel${n}`;
+      panel.className='player'; panel.id=`panel${n}`;
       panel.style.setProperty('--pc', color);
       panel.innerHTML = `
         <input class="player-name" id="name${n}" value="Jugador ${n}" maxlength="14" spellcheck="false">
         <input type="number" class="score" id="score${n}" value="0" min="0">
         <div class="btn-row">
-          <button class="btn btn-add" onclick="change(${n}, 2)">+2</button>
-          <button class="btn btn-add" onclick="change(${n}, 1)">+1</button>
-          <button class="btn btn-sub" onclick="change(${n}, -1)">−1</button>
+          <button class="btn btn-add big" onclick="change(${n},2)">+2</button>
+          <button class="btn btn-add" onclick="change(${n},1)">+1</button>
+          <button class="btn btn-sub" onclick="change(${n},-1)">−1</button>
         </div>`;
       board.appendChild(panel);
+
+      // Swipe to subtract
+      setupSwipe(panel, n);
     }
 
-    // Name events
     document.querySelectorAll('.player-name').forEach(el => {
-      el.addEventListener('focus', () => el.select());
-      el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); });
+      el.addEventListener('focus', ()=>el.select());
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter') el.blur(); });
       el.addEventListener('change', saveState);
     });
 
-    // Score direct edit
-    document.querySelectorAll('.score').forEach((el, i) => {
-      el.addEventListener('focus', () => el.select());
+    document.querySelectorAll('.score').forEach((el,i) => {
+      el.addEventListener('focus', ()=>el.select());
       el.addEventListener('change', () => {
-        const val = Math.max(0, parseInt(el.value) || 0);
-        scores[i] = val;
-        el.value = val;
-        updateLeading();
-        saveState();
-        checkWinner();
+        const val = Math.max(0, parseInt(el.value)||0);
+        scores[i]=val; el.value=val;
+        updateLeading(); updateTension(); saveState(); checkWinner();
       });
-      el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); });
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter') el.blur(); });
     });
   }
 
-  // ── CHANGE SCORE ──
+  // ── SWIPE ──
+  function setupSwipe(panel, n) {
+    let startX=0, startY=0;
+    panel.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, {passive:true});
+    panel.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = Math.abs(e.changedTouches[0].clientY - startY);
+      if (dx < -60 && dy < 40) { change(n, -1); }
+    }, {passive:true});
+  }
+
+  // ── CHANGE ──
   function change(player, delta) {
-    const i = player - 1;
-    scores[i] = Math.max(0, scores[i] + delta);
-    const el = document.getElementById('score' + player);
+    const i = player-1;
+    scores[i] = Math.max(0, scores[i]+delta);
+    const el = document.getElementById('score'+player);
     el.value = scores[i];
-    el.classList.remove('bump');
-    void el.offsetWidth;
-    el.classList.add('bump');
+    el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
 
-    if (delta > 0) playPop();
+    if (delta > 0) { playPop(); vibrate(30); }
+    else { vibrate(10); }
 
-    const name = document.getElementById('name' + player).value || `Jugador ${player}`;
-    const color = COLORS[i];
-    const sign = delta > 0 ? '+' : '';
-    gameHistory.push(`<span style="color:${color}">${name}</span> ${sign}${delta} → ${scores[i]}`);
-    updateHistory();
-    updateLeading();
-    saveState();
-    if (delta > 0) checkWinner(player);
+    const name = document.getElementById('name'+player).value || `Jugador ${player}`;
+    const sign = delta>0 ? '+' : '';
+    gameHistory.push(`<span style="color:${COLORS[i]}">${name}</span> ${sign}${delta} → ${scores[i]}`);
+    updateHistory(); updateLeading(); updateTension(); saveState();
+    if (delta>0) checkWinner(player);
   }
 
   function updateLeading() {
     const max = Math.max(...scores);
-    for (let i = 1; i <= numPlayers; i++) {
-      const panel = document.getElementById('panel' + i);
-      if (scores[i-1] === max && max > 0) panel.classList.add('leading');
-      else panel.classList.remove('leading');
+    for (let i=1; i<=numPlayers; i++) {
+      const p = document.getElementById('panel'+i);
+      if (scores[i-1]===max && max>0) p.classList.add('leading');
+      else p.classList.remove('leading');
+    }
+  }
+
+  // ── TENSION ──
+  function updateTension() {
+    if (!goalScore) return;
+    for (let i=0; i<numPlayers; i++) {
+      const panel = document.getElementById('panel'+(i+1));
+      const ratio = scores[i] / goalScore;
+      if (ratio >= 0.8 && scores[i] < goalScore) {
+        if (!panel.classList.contains('tension')) {
+          panel.classList.add('tension');
+          playTension();
+          vibrate([50,30,50]);
+        }
+      } else {
+        panel.classList.remove('tension');
+      }
     }
   }
 
   // ── WINNER ──
   function checkWinner(lastPlayer) {
     if (!goalScore) return;
-    for (let i = 0; i < numPlayers; i++) {
+    for (let i=0; i<numPlayers; i++) {
       if (scores[i] >= goalScore) {
-        setTimeout(() => showWinner(i + 1), 300);
+        setTimeout(()=>showWinner(i+1), 300);
         return;
       }
     }
   }
 
   function showWinner(player) {
-    const name = document.getElementById('name' + player).value || `Jugador ${player}`;
-    const color = COLORS[player - 1];
+    stopTimer();
+    const name = document.getElementById('name'+player).value || `Jugador ${player}`;
+    const color = COLORS[player-1];
     document.getElementById('winner-name').textContent = name;
     document.getElementById('winner-name').style.color = color;
-    document.getElementById('winner-score').textContent = `${scores[player-1]} puntos`;
+    document.getElementById('winner-pts').textContent = `${scores[player-1]} pts · ${formatTime(timerSeconds)}`;
+    buildPodium(player);
     document.getElementById('winner-screen').classList.add('active');
-    playWin();
+    playWin(); vibrate([80,40,80,40,120]);
     launchConfetti(color);
+  }
+
+  function buildPodium(winnerPlayer) {
+    // Sort players by score desc
+    const ranked = Array.from({length:numPlayers},(_,i)=>i+1)
+      .sort((a,b)=>scores[b-1]-scores[a-1])
+      .slice(0,Math.min(3,numPlayers));
+
+    const medals = ['🥇','🥈','🥉'];
+    const podiumEl = document.getElementById('podium');
+    podiumEl.innerHTML = '';
+
+    // Reorder for visual podium: 2nd, 1st, 3rd
+    const visual = ranked.length===1 ? ranked :
+      ranked.length===2 ? [ranked[1],ranked[0]] :
+      [ranked[1],ranked[0],ranked[2]];
+    const visualMedals = ranked.length===1 ? [medals[0]] :
+      ranked.length===2 ? [medals[1],medals[0]] :
+      [medals[1],medals[0],medals[2]];
+
+    visual.forEach((p,vi) => {
+      const slot = document.createElement('div');
+      slot.className = 'podium-slot';
+      const pname = document.getElementById('name'+p)?.value || `Jugador ${p}`;
+      slot.innerHTML = `
+        <div class="podium-medal">${visualMedals[vi]}</div>
+        <div class="podium-pname" style="color:${COLORS[p-1]}">${pname}</div>
+        <div class="podium-pts">${scores[p-1]}pts</div>
+        <div class="podium-bar" style="background:${COLORS[p-1]}; opacity:0.7"></div>`;
+      podiumEl.appendChild(slot);
+    });
   }
 
   function closeWinner() {
     document.getElementById('winner-screen').classList.remove('active');
     stopConfetti();
+    startTimer();
   }
 
-  function resetAfterWin() {
-    closeWinner();
-    resetScores();
+  function resetAfterWin() { closeWinner(); resetScores(); }
+
+  // ── SHARE ──
+  function shareResult() {
+    const gameName = document.getElementById('game-name-display').textContent;
+    const sorted = Array.from({length:numPlayers},(_,i)=>i+1)
+      .sort((a,b)=>scores[b-1]-scores[a-1]);
+    const medals = ['🥇','🥈','🥉'];
+    let text = gameName ? `🎮 ${gameName}\n\n` : '🎮 Marcador\n\n';
+    sorted.forEach((p,i) => {
+      const name = document.getElementById('name'+p)?.value || `Jugador ${p}`;
+      const medal = medals[i] || `${i+1}.`;
+      text += `${medal} ${name} — ${scores[p-1]} pts\n`;
+    });
+    text += `\n⏱ ${formatTime(timerSeconds)}\nhttps://marcador-tan.vercel.app`;
+
+    if (navigator.share) {
+      navigator.share({ title: 'Marcador', text }).catch(()=>{});
+    } else {
+      navigator.clipboard.writeText(text).then(()=>showToast('Resultado copiado ✓')).catch(()=>showToast('No se pudo copiar'));
+    }
   }
 
   // ── CONFETTI ──
-  let confettiRunning = false, confettiFrame;
-
+  let confettiRunning=false, confettiFrame;
   function launchConfetti(winColor) {
-    const canvas = document.getElementById('confetti');
-    const ctx2 = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    confettiRunning = true;
-
-    const particles = Array.from({length: 120}, () => ({
-      x: Math.random() * canvas.width,
-      y: -20,
-      r: Math.random() * 8 + 4,
-      d: Math.random() * 80 + 20,
-      color: [winColor, '#fff', '#ffe033', '#3cff8f', '#ff7aff'][Math.floor(Math.random()*5)],
-      tilt: Math.random() * 10 - 10,
-      tiltAngle: 0,
-      tiltSpeed: Math.random() * 0.1 + 0.05
+    const canvas=document.getElementById('confetti'), ctx2=canvas.getContext('2d');
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+    confettiRunning=true;
+    const particles=Array.from({length:130},()=>({
+      x:Math.random()*canvas.width, y:-20, r:Math.random()*8+4,
+      d:Math.random()*80+20,
+      color:[winColor,'#fff','#ffe033','#3cff8f','#ff7aff'][Math.floor(Math.random()*5)],
+      tilt:Math.random()*10-10, tiltAngle:0, tiltSpeed:Math.random()*0.1+0.05
     }));
-
     function draw() {
       if (!confettiRunning) return;
-      ctx2.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.tiltAngle += p.tiltSpeed;
-        p.y += (Math.cos(p.d) + 2);
-        p.x += Math.sin(p.tiltAngle) * 1.5;
-        p.tilt = Math.sin(p.tiltAngle) * 12;
-        ctx2.beginPath();
-        ctx2.lineWidth = p.r;
-        ctx2.strokeStyle = p.color;
-        ctx2.moveTo(p.x + p.tilt + p.r / 2, p.y);
-        ctx2.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+      ctx2.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p=>{
+        p.tiltAngle+=p.tiltSpeed; p.y+=(Math.cos(p.d)+2);
+        p.x+=Math.sin(p.tiltAngle)*1.5; p.tilt=Math.sin(p.tiltAngle)*12;
+        ctx2.beginPath(); ctx2.lineWidth=p.r; ctx2.strokeStyle=p.color;
+        ctx2.moveTo(p.x+p.tilt+p.r/2,p.y); ctx2.lineTo(p.x+p.tilt,p.y+p.tilt+p.r/2);
         ctx2.stroke();
-        if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
+        if(p.y>canvas.height){p.y=-20;p.x=Math.random()*canvas.width;}
       });
-      confettiFrame = requestAnimationFrame(draw);
+      confettiFrame=requestAnimationFrame(draw);
     }
     draw();
   }
-
   function stopConfetti() {
-    confettiRunning = false;
-    cancelAnimationFrame(confettiFrame);
-    const canvas = document.getElementById('confetti');
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    confettiRunning=false; cancelAnimationFrame(confettiFrame);
+    document.getElementById('confetti').getContext('2d').clearRect(0,0,9999,9999);
   }
 
   // ── HISTORY ──
   function updateHistory() {
-    const list = document.getElementById('historyList');
-    if (!gameHistory.length) {
-      list.innerHTML = '<div class="history-item" style="opacity:0.4">Sin movimientos aún</div>';
-      return;
-    }
-    list.innerHTML = [...gameHistory].reverse().map(h => `<div class="history-item">${h}</div>`).join('');
+    const list=document.getElementById('historyList');
+    if (!gameHistory.length) { list.innerHTML='<div class="history-item" style="opacity:0.4">Sin movimientos aún</div>'; return; }
+    list.innerHTML=[...gameHistory].reverse().map(h=>`<div class="history-item">${h}</div>`).join('');
   }
-
-  function toggleHistory() {
-    document.getElementById('historyPanel').classList.toggle('open');
-  }
+  function toggleHistory() { document.getElementById('historyPanel').classList.toggle('open'); }
 
   // ── RESET ──
   function resetScores() {
-    scores = Array(numPlayers).fill(0);
-    gameHistory = [];
-    for (let i = 1; i <= numPlayers; i++) {
-      document.getElementById('score' + i).value = '0';
-      document.getElementById('panel' + i).classList.remove('leading');
+    scores=Array(numPlayers).fill(0); gameHistory=[];
+    timerSeconds=0; document.getElementById('timer-bar').textContent='00:00';
+    startTimer();
+    for(let i=1;i<=numPlayers;i++){
+      document.getElementById('score'+i).value='0';
+      const p=document.getElementById('panel'+i);
+      p.classList.remove('leading','tension');
     }
-    updateHistory();
-    saveState();
-    showToast('Puntuación reiniciada');
+    updateHistory(); saveState(); showToast('Puntuación reiniciada');
   }
 
-  // ── SAVE / RESTORE STATE ──
+  // ── SAVE/RESTORE ──
   function saveState() {
     try {
-      const names = [];
-      for (let i = 1; i <= numPlayers; i++) {
-        names.push(document.getElementById('name' + i)?.value || `Jugador ${i}`);
-      }
-      const state = {
-        numPlayers, scores, gameHistory, goalScore,
-        names,
-        gameName: document.getElementById('game-name-display').textContent
-      };
-      sessionStorage.setItem('marcador_state', JSON.stringify(state));
-    } catch(e) {}
+      const names=[];
+      for(let i=1;i<=numPlayers;i++) names.push(document.getElementById('name'+i)?.value||`Jugador ${i}`);
+      sessionStorage.setItem('marcador_state', JSON.stringify({
+        numPlayers, scores, gameHistory, goalScore, names,
+        gameName: document.getElementById('game-name-display').textContent,
+        timerSeconds
+      }));
+    } catch(e){}
   }
 
   function restoreState() {
     try {
-      const raw = sessionStorage.getItem('marcador_state');
+      const raw=sessionStorage.getItem('marcador_state');
       if (!raw) return;
-      const state = JSON.parse(raw);
-      numPlayers = state.numPlayers;
-      scores = state.scores;
-      gameHistory = state.gameHistory || [];
-      goalScore = state.goalScore || 0;
-
-      // Restore num card selection
-      document.querySelectorAll('.num-card').forEach(c => {
-        if (parseInt(c.dataset.n) === numPlayers) c.classList.add('selected');
-      });
+      const st=JSON.parse(raw);
+      numPlayers=st.numPlayers; scores=st.scores;
+      gameHistory=st.gameHistory||[]; goalScore=st.goalScore||0;
+      timerSeconds=st.timerSeconds||0;
+      document.querySelectorAll('.num-card').forEach(c=>{ if(parseInt(c.dataset.n)===numPlayers) c.classList.add('selected'); });
       document.getElementById('start-btn').classList.add('ready');
-
       buildBoard();
-
-      // Restore names & scores
-      for (let i = 1; i <= numPlayers; i++) {
-        if (state.names?.[i-1]) document.getElementById('name' + i).value = state.names[i-1];
-        document.getElementById('score' + i).value = scores[i-1];
+      for(let i=1;i<=numPlayers;i++){
+        if(st.names?.[i-1]) document.getElementById('name'+i).value=st.names[i-1];
+        document.getElementById('score'+i).value=scores[i-1];
       }
-
-      document.getElementById('game-name-display').textContent = state.gameName || '';
-      document.getElementById('setup-screen').style.display = 'none';
+      document.getElementById('game-name-display').textContent=st.gameName||'';
+      document.getElementById('setup-screen').style.display='none';
       document.getElementById('game-screen').classList.add('active');
-      updateHistory();
-      updateLeading();
-    } catch(e) {}
+      updateHistory(); updateLeading();
+      startTimer();
+    } catch(e){}
   }
 
   // ── TOAST ──
   function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(t._timeout);
-    t._timeout = setTimeout(() => t.classList.remove('show'), 2200);
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200);
   }
 
-  // Restore on load
   restoreState();
 </script>
 </body>
